@@ -1,16 +1,14 @@
 const initState = {
   loggedIn: false,
+  wrongPassOrEmail: false
 }
 
 const authReducer = (state = initState, action) => {
   switch(action.type) {
     case 'LOGIN_USER':
-      return { ...state, ...action.payload };
     case 'LOGOUT_USER':
-      return { ...state, ...action.payload };
     case 'SIGN_UP_USER':
-      return { ...state, ...action.payload };
-    case 'CHECK_USER_TOKEN':
+    case 'WRONG_PASS_OR_EMAIL':
       return { ...state, ...action.payload };
     default:
       return state;
