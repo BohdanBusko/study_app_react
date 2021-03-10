@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,11 +10,7 @@ import Header from '../Header';
 import Home from '../Home';
 import LoginPage from '../LoginPage';
 import SignUpPage from '../SignUpPage';
-
-import fetchData from '../../config/axios';
-
-import getUserData from '../../redux/actions/getUserData';
-import checkUserToken from '../../redux/actions/checkUserToken';
+import { fetchUserData } from '../../redux/actions/fetchUserData';
 
 import './app.scss';
 
@@ -22,12 +18,9 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(checkUserToken());
-
-    fetchData.get('/api/v1/account/profile')
-             .then(({data}) => {
-               dispatch(getUserData(data.data.attributes));
-             });
+    if (localStorage.getItem('token')) {
+      dispatch(fetchUserData());
+    }
   });
 
   return (

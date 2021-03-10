@@ -1,16 +1,19 @@
+import {
+  LOGIN_USER,
+  WRONG_PASS_OR_EMAIL
+} from '../actions/loginUser';
+import { LOGOUT_USER } from '../actions/logoutUser';
+
 const initState = {
   loggedIn: false,
+  wrongPassOrEmail: false
 }
 
 const authReducer = (state = initState, action) => {
   switch(action.type) {
-    case 'LOGIN_USER':
-      return { ...state, ...action.payload };
-    case 'LOGOUT_USER':
-      return { ...state, ...action.payload };
-    case 'SIGN_UP_USER':
-      return { ...state, ...action.payload };
-    case 'CHECK_USER_TOKEN':
+    case LOGIN_USER:
+    case WRONG_PASS_OR_EMAIL:
+    case LOGOUT_USER:
       return { ...state, ...action.payload };
     default:
       return state;

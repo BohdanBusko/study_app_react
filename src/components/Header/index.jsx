@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   AppBar,
   Typography,
@@ -40,7 +41,7 @@ const Header = () => {
           <>
             <Button color="inherit" className={classes.button}>
               <Link to="/login">
-                Login
+                Sign In
               </Link>
             </Button>
             |
@@ -57,7 +58,11 @@ const Header = () => {
               { user.full_name }
             </Typography>
             |
-            <Button color="inherit" onClick={() => dispatch(logoutUser())}>
+            <Button
+              color="inherit"
+              onClick={() => dispatch(logoutUser())}
+              data-testid="logout-button"
+            >
               Logout
             </Button>
           </>

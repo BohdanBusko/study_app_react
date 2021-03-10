@@ -1,22 +1,25 @@
 import fetchData from '../../config/axios';
+import {
+  loadingUserData,
+  setUserData,
+  userDataLoaded
+} from './fetchUserData';
+import { loginUser } from './loginUser';
 
-const signUpUser = (data = {}) => {
-  const response = async () => {
-    return await fetchData.post('/api/v1/registration', data)
-                          .then(({data}) => (data.data.attributes.token))
-                          .catch((err) => console.log(err));
-  }
+const signUpUser = (data) => (dispatch) => {
+  dispatch(loadingUserData());
 
-  localStorage.setItem('token', response);
+  return fetchData.post('/api/v1/registration', { registration: data })
+           .then(({data}) => {
+             localStorage.setItem('token', data.data.attributes.token);
 
-  return (
-    {
-      type: 'SIGN_UP_USER',
-      paylod: {
-        loggedIn: true
-      }
-    }
-  );
+             dispatch(setUserData(data.data.attributes.user.data.attributes));
+             dispatch(userDataLoaded());
+             dispatch(loginUser());
+           })
+           .catch((_) => {
+             dispatch(userDataLoaded());
+           });
 }
 
 export default signUpUser;

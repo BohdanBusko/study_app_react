@@ -1,15 +1,14 @@
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Grid,
   TextField,
   Button
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import fetchData from '../../config/axios';
 
-import loginUser from '../../redux/actions/loginUser';
-import getUserData from '../../redux/actions/getUserData';
+import { createSession } from '../../redux/actions/loginUser';
 
 const useStyles = makeStyles({
   root: {
@@ -18,18 +17,15 @@ const useStyles = makeStyles({
 })
 
 const LoginPage = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, errors, reset } = useForm();
+  const wrongPassOrEmail = useSelector((state) => state.auth.wrongPassOrEmail);
   const dispatch = useDispatch();
   const classes = useStyles();
 
   const onSubmit = (data) => {
-    fetchData.post('/api/v1/sessions', { session: data })
-             .then(({data}) => {
-               localStorage.setItem('token', data.data.attributes.token)
-               dispatch(loginUser());
-               dispatch(getUserData(data.data.attributes.user.data.attributes))
-             })
-             .catch((err) => console.log(err));
+    dispatch(createSession(data));
+
+    reset({email: data.email});
   }
 
   return(
@@ -41,21 +37,40 @@ const LoginPage = () => {
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container direction="column" spacing={2}>
+          { wrongPassOrEmail &&
+            <div className="error-label">
+              Wrong password or email
+            </div>
+          }
           <TextField
             name="email"
-            inputRef={register}
+            type="email"
+            inputRef={register({required: "Email can't be blank"})}
             variant="outlined"
             label="Email"
             margin="normal"
+            data-testid="email"
           />
+          { errors.email &&
+            <label className="error-label">
+              {errors.email.message}
+            </label>
+          }
           <TextField
             name="password"
-            inputRef={register}
+            type="password"
+            inputRef={register({required: "Password can't be blank"})}
             variant="outlined"
             label="Password"
             margin="normal"
+            data-testid="password"
           />
-          <Button variant="contained" type="submit">
+          { errors.password &&
+            <label className="error-label">
+              {errors.password.message}
+            </label>
+          }
+          <Button variant="contained" type="submit" data-testid="login-button">
             Login
           </Button>
         </Grid>

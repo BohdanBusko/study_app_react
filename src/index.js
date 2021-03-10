@@ -11,6 +11,7 @@ import mainReducer from './redux/reducers';
 import theme from './config/materialUiTheme';
 
 import './config/axios';
+import './config/jest';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
