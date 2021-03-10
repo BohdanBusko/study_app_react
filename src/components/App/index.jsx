@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,9 +18,7 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-
-    if (token) {
+    if (localStorage.getItem('token')) {
       dispatch(fetchUserData());
     }
   });

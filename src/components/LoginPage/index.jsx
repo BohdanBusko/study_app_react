@@ -1,3 +1,4 @@
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -7,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import createSession from '../../redux/actions/loginUser';
+import { createSession } from '../../redux/actions/loginUser';
 
 const useStyles = makeStyles({
   root: {
@@ -16,13 +17,15 @@ const useStyles = makeStyles({
 })
 
 const LoginPage = () => {
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors, reset } = useForm();
   const wrongPassOrEmail = useSelector((state) => state.auth.wrongPassOrEmail);
   const dispatch = useDispatch();
   const classes = useStyles();
 
   const onSubmit = (data) => {
     dispatch(createSession(data));
+
+    reset({email: data.email});
   }
 
   return(
@@ -46,6 +49,7 @@ const LoginPage = () => {
             variant="outlined"
             label="Email"
             margin="normal"
+            data-testid="email"
           />
           { errors.email &&
             <label className="error-label">
@@ -59,13 +63,14 @@ const LoginPage = () => {
             variant="outlined"
             label="Password"
             margin="normal"
+            data-testid="password"
           />
           { errors.password &&
             <label className="error-label">
               {errors.password.message}
             </label>
           }
-          <Button variant="contained" type="submit">
+          <Button variant="contained" type="submit" data-testid="login-button">
             Login
           </Button>
         </Grid>

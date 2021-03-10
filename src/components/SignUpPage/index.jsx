@@ -1,3 +1,4 @@
+import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import {
@@ -16,10 +17,9 @@ const useStyles = makeStyles({
 })
 
 const SignUpPage = () => {
-  const { register, handleSubmit, errors, watch } = useForm();
+  const { register, handleSubmit, errors, getValues } = useForm();
   const dispatch = useDispatch();
   const classes = useStyles();
-  let password = watch('password', '');
 
   const onSubmit = (data) => {
     dispatch(signUpUser(data));
@@ -40,6 +40,7 @@ const SignUpPage = () => {
             variant="outlined"
             label="First name"
             margin="normal"
+            data-testid="first_name"
           />
           { errors.first_name &&
             <label className="error-label">
@@ -52,6 +53,7 @@ const SignUpPage = () => {
             variant="outlined"
             label="Last name"
             margin="normal"
+            data-testid="last_name"
           />
           { errors.last_name &&
             <label className="error-label">
@@ -67,6 +69,7 @@ const SignUpPage = () => {
             variant="outlined"
             label="Email"
             margin="normal"
+            data-testid="email"
           />
           { errors.email &&
             <label className="error-label">
@@ -86,6 +89,7 @@ const SignUpPage = () => {
             variant="outlined"
             label="Password"
             margin="normal"
+            data-testid="password"
           />
           { errors.password &&
             <label className="error-label">
@@ -98,19 +102,21 @@ const SignUpPage = () => {
             inputRef={register({
               required: "Password confirmation can't be blank",
               validate: (value) => {
-                return(value === password.current || "The password does not match");
+                const password = getValues('password') || '';
+                return(value === password || "The password does not match");
               }
             })}
             variant="outlined"
             label="Password confirmation"
             margin="normal"
+            data-testid="password_confirmation"
           />
           { errors.password_confirmation &&
             <label className="error-label">
               {errors.password_confirmation.message}
             </label>
           }
-          <Button variant="contained" type="submit">
+          <Button variant="contained" type="submit" data-testid="signup-button">
             Sign Up
           </Button>
         </Grid>
