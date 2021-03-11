@@ -35,7 +35,9 @@ const Header = () => {
     <AppBar position="static" className={classes.root}>
       <Toolbar>
         <Typography variant="h6" className={classes.title}>
-          My App
+          <Link to="/">
+            My App
+          </Link>
         </Typography>
         { !loggedIn &&
           <>
@@ -55,7 +57,9 @@ const Header = () => {
         { loggedIn &&
           <>
             <Typography>
-              { user.full_name }
+              <Link to="/profile">
+                { user.full_name }
+              </Link>
             </Typography>
             |
             <Button

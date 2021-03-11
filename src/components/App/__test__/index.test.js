@@ -1,5 +1,4 @@
 import React from 'react';
-import { waitFor } from '@testing-library/react';
 
 import fetchData from '../../../config/axios';
 import { customRender } from '../../../test_helpers/helpers';
@@ -7,7 +6,6 @@ import App from '../index';
 import * as mock from '../__mocks__/AppMock';
 
 jest.mock('../../../config/axios');
-
 
 describe("with token", () => {
   beforeEach(() => {
