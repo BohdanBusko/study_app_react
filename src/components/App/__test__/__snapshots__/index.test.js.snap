@@ -12,7 +12,11 @@ exports[`with token renders correctly 1`] = `
         <h6
           class="MuiTypography-root makeStyles-title-3 MuiTypography-h6"
         >
-          My App
+          <a
+            href="/"
+          >
+            My App
+          </a>
         </h6>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
@@ -74,7 +78,11 @@ exports[`without token renders correctly 1`] = `
         <h6
           class="MuiTypography-root makeStyles-title-9 MuiTypography-h6"
         >
-          My App
+          <a
+            href="/"
+          >
+            My App
+          </a>
         </h6>
         <button
           class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
