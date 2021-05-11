@@ -40,7 +40,6 @@ export const createSession = (data) => (dispatch) => {
              dispatch(loginUser());
            })
            .catch((_) => {
-             dispatch(wrongPassOrEmail());
              dispatch(userDataLoaded());
            });
 }
