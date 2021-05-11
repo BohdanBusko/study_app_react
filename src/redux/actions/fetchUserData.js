@@ -33,10 +33,13 @@ export const userDataLoaded = () => {
 export const fetchUserData = () => (dispatch) => {
   dispatch(loadingUserData());
 
-  return fetchData.get('/api/v1/account/profiles')
+  return fetchData.get('/api/v1/account/profile')
            .then(({data}) => {
              dispatch(setUserData(data.data.attributes));
              dispatch(userDataLoaded());
              dispatch(loginUser());
+           })
+           .catch((_) => {
+             dispatch(userDataLoaded());
            });
 }

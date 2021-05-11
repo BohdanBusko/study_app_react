@@ -43,29 +43,51 @@ describe('actions', () => {
     }
   }
 
-  it("creates an action which sets loadin true", () => {
-    expect(actions.loadingUserData()).toEqual(loadingUserDataAction);
+  describe("loadingUserData", () => {
+    it("creates an action which sets loadin true", () => {
+      expect(actions.loadingUserData()).toEqual(loadingUserDataAction);
+    });
   });
 
-  it("creates an action which returns user data", () => {
-    expect(actions.setUserData(userData)).toEqual(setUserDataAction);
+  describe("setUserData", () => {
+    it("creates an action which returns user data", () => {
+      expect(actions.setUserData(userData)).toEqual(setUserDataAction);
+    });
   });
 
-  it("creates an action which sets loadino false", () => {
-    expect(actions.userDataLoaded()).toEqual(userDataLoadedAction);
+  describe("userDataLoaded", () => {
+    it("creates an action which sets loadino false", () => {
+      expect(actions.userDataLoaded()).toEqual(userDataLoadedAction);
+    });
   });
 
-  it("fetches user data and call LOADING_USER_DATA, SET_USER_DATA and USER_DATA_LOADED actions", () => {
-    const expectedActions = [
-      loadingUserDataAction, setUserDataAction,
-      userDataLoadedAction, loginUserAction
-    ];
-    const store = mockStore({ user: {  } });
+  describe("fetchUserData", () => {
+    it("calls LOADING_USER_DATA, SET_USER_DATA and USER_DATA_LOADED actions when status 2**", () => {
+      const expectedActions = [
+        loadingUserDataAction, setUserDataAction,
+        userDataLoadedAction, loginUserAction
+      ];
+      const store = mockStore();
 
-    fetchData.get.mockResolvedValue(mock.userInfo);
+      fetchData.get.mockResolvedValue(mock.userInfo);
 
-    return store.dispatch(actions.fetchUserData()).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
+      return store.dispatch(actions.fetchUserData()).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
+    });
+
+    it("calls LOADING_USER_DATA and USER_DATA_LOADED actions when status 4** or 5**", () => {
+      const expectedActions = [
+        loadingUserDataAction,
+        userDataLoadedAction
+      ];
+      const store = mockStore();
+
+      fetchData.get.mockImplementationOnce(() => Promise.reject(new Error()));
+
+      return store.dispatch(actions.fetchUserData()).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      });
     });
   })
 });

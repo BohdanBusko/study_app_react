@@ -5,8 +5,7 @@ import {
 import { LOGOUT_USER } from '../actions/logoutUser';
 
 const initState = {
-  loggedIn: false,
-  wrongPassOrEmail: false
+  loggedIn: false
 }
 
 const authReducer = (state = initState, action) => {
